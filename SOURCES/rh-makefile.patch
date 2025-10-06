@@ -1,0 +1,27 @@
+--- a/src/Makefile	2024-10-30 22:20:03.296178391 +0100
++++ b/src/Makefile	2024-10-30 22:21:43.915301707 +0100
+@@ -52,11 +52,11 @@ ifneq ($(ICP_ROOT), )
+ 		   	   -I$(ICP_ROOT)/quickassist/include/dc	\
+ 		       -I$(ICP_ROOT)/quickassist/lookaside/access_layer/include \
+ 			   -I$(ICP_ROOT)/quickassist/utilities/libusdm_drv
+-	LDFLAGS  = -Wl,-rpath,$(ICP_ROOT)/build -L$(ICP_ROOT)/build -lqat_s \
++	LDFLAGS += -Wl,-rpath,$(ICP_ROOT)/build -L$(ICP_ROOT)/build -lqat_s \
+ 			   -lusdm_drv_s
+ else
+ 	QATFLAGS = -DINTREE
+-	LDFLAGS  = -lqat -lusdm
++	LDFLAGS += -lqat -lusdm
+ endif
+ 
+ ifdef ZSTDLIB
+--- a/test/Makefile	2024-10-30 22:22:39.465369781 +0100
++++ b/test/Makefile	2024-10-30 22:24:02.145471097 +0100
+@@ -34,7 +34,7 @@
+ # #######################################################################
+ LIB     = ../src
+ 
+-LDFLAGS = -L$(LIB) -I$(LIB)
++LDFLAGS += -L$(LIB) -I$(LIB)
+ 
+ ifneq ($(ICP_ROOT), )
+ 	LDFLAGS += -lqat_s -lusdm_drv_s -Wl,-rpath,$(ICP_ROOT)/build -L$(ICP_ROOT)/build
