@@ -1,16 +1,20 @@
 --- a/src/Makefile	2024-10-30 22:20:03.296178391 +0100
 +++ b/src/Makefile	2024-10-30 22:21:43.915301707 +0100
-@@ -52,11 +52,11 @@ ifneq ($(ICP_ROOT), )
+@@ -53,7 +53,7 @@ ifneq ($(ICP_ROOT), )
  		   	   -I$(ICP_ROOT)/quickassist/include/dc	\
  		       -I$(ICP_ROOT)/quickassist/lookaside/access_layer/include \
  			   -I$(ICP_ROOT)/quickassist/utilities/libusdm_drv
 -	LDFLAGS  = -Wl,-rpath,$(ICP_ROOT)/build -L$(ICP_ROOT)/build -lqat_s \
 +	LDFLAGS += -Wl,-rpath,$(ICP_ROOT)/build -L$(ICP_ROOT)/build -lqat_s \
- 			   -lusdm_drv_s
+ 			   -lusdm_drv_s -lnuma
  else
- 	QATFLAGS = -DINTREE
--	LDFLAGS  = -lqat -lusdm
-+	LDFLAGS += -lqat -lusdm
+ 	# In-tree - look for headers in standard locations
+@@ -63,7 +63,7 @@ else
+ 	else
+         $(error QAT headers not found in Standard path, Please install QATLib development package or set ICP_ROOT for out-of-tree driver)
+ 	endif
+-	LDFLAGS  = -lqat -lusdm -lnuma
++	LDFLAGS += -lqat -lusdm -lnuma
  endif
  
  ifdef ZSTDLIB
@@ -24,4 +28,4 @@
 +LDFLAGS += -L$(LIB) -I$(LIB)
  
  ifneq ($(ICP_ROOT), )
- 	LDFLAGS += -lqat_s -lusdm_drv_s -Wl,-rpath,$(ICP_ROOT)/build -L$(ICP_ROOT)/build
+ 	LDFLAGS += -lqat_s -lusdm_drv_s -lnuma -Wl,-rpath,$(ICP_ROOT)/build -L$(ICP_ROOT)/build
